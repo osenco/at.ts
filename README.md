@@ -1,6 +1,4 @@
-# at.ts
-
-Africa's Talking TypeScript Package
+# Africa's Talking TypeScript Package
 
 ## Install
 
@@ -11,7 +9,7 @@ yarn add '@osenco/africastalking'
 ## Initialize
 
 ```typescript
-import {AfricasTalking}, ATConfig from '@osenco/africastalking'
+import { AfricasTalking }, ATConfig from '@osenco/africastalking'
 
 const at = new AfricasTalking({
     username: '',
