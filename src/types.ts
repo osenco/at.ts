@@ -9,3 +9,22 @@ export type ATSmsPayload = {
   from: string|number|null,
   message: string
 }
+
+export type USSDResponse = {
+  status: string,
+  details: string,
+  sessionId: string,
+  serviceCode: string,
+  phoneNumber: string,
+  text: string
+}
+
+export type USSDOptions = {
+  step?: number,
+  network?: string,
+  phone?: string,
+  sessionId?: string,
+  serviceCode?: string,
+  text?: string,
+  type?: string,
+}

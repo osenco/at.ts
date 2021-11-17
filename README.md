@@ -1,21 +1,22 @@
 # at.ts
+
 Africa's Talking TypeScript Package
 
 ## Install
 
 ```bash
-yarn add '@osenco/at.ts'
+yarn add '@osenco/africastalking'
 ```
 
 ## Initialize
 
-```bash
-import {useAfricasTalking}, ATConfig from '@osenco/at.ts'
+```typescript
+import {AfricasTalking}, ATConfig from '@osenco/africastalking'
 
-const at = new useAfricasTalking({
-username: '',
-apiKey: '',
-from: ''
+const at = new AfricasTalking({
+    username: '',
+    apiKey: '',
+    from: ''
 })
 ```
 
@@ -23,31 +24,32 @@ from: ''
 
 ### Send one message to one 
 
-```bash
-at.to(254705459494).sms('Hello there').send();
-````
+```typescript
+at.sms('Hello there').to(254705459494).send();
+```
 
 ### Send one message to many
-```bash
-at.to([254705459494, 254115911301]).smsMany('Hello there').send();
-````
+
+```typescript
+at.smsMany('Hello there').to([254705459494, 254115911301]).send();
+```
 
 ### Send unique messages
 
 ### With template
 
-```bash
-at.to([254705459494, 254115911301]).smsManyTemplate('Hello there', {name, amount}).send();
-````
+```typescript
+at.smsManyTemplate('Hello there', {name, amount}).to([254705459494, 254115911301]).send();
+```
 
 ### Predefined
 
-```bash
+```typescript
 at.smsManyDefine({'254705459494':'Hello there']).send();
-````
+```
 
 ## Check balance
 
-```bash
+```typescript
 const balance = at.balance()
 ```
