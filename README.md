@@ -20,7 +20,7 @@ const at = new AfricasTalking({
 
 ## Send SMS
 
-### Send one message to one 
+### Send one message to one
 
 ```typescript
 at.sms('Hello there').to(254705459494).send();
@@ -29,7 +29,7 @@ at.sms('Hello there').to(254705459494).send();
 ### Send one message to many
 
 ```typescript
-at.smsMany('Hello there').to([254705459494, 254115911301]).send();
+at.sms('Hello there').to([254705459494, 254115911301]).send();
 ```
 
 ### Send unique messages
@@ -37,13 +37,13 @@ at.smsMany('Hello there').to([254705459494, 254115911301]).send();
 ### With template
 
 ```typescript
-at.smsManyTemplate('Hello there', {name, amount}).to([254705459494, 254115911301]).send();
+at.smsManyTemplate([254705459494, 254115911301], 'Hello there :name', {name, amount});
 ```
 
 ### Predefined
 
 ```typescript
-at.smsManyDefine({'254705459494':'Hello there']).send();
+at.smsManyDefine({'254705459494':'Hello there Mauko'}).send();
 ```
 
 ## Check balance

@@ -48,6 +48,30 @@ export class AfricasTalking {
 		return sms;
 	}
 
+	public async smsManyDefined(messages: any[]): Promise<void> {
+		const sms = new Sms(this);
+		Object.entries(messages).forEach(([to, message]) => {
+			sms.text(message).to(to).send();
+		});
+	}
+
+	public async smsManyTemplate(
+		phones: any[],
+		template: string,
+		replacers: string[]
+	): Promise<void> {
+		const sms = new Sms(this);
+		let message = "";
+
+		Object.entries(phones).forEach(([to, data]) => {
+			replacers.forEach((key) => {
+				message = template.replace(/`:${key}`/g, String(data[key]));
+			});
+
+			sms.text(message).to(to).send();
+		});
+	}
+
 	public airtime(): Airtime {
 		return new Airtime(this);
 	}
