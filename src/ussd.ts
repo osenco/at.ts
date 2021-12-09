@@ -3,6 +3,11 @@ import { USSDOptions, USSDResponse } from "./types";
 
 export class USSD {
 	private client: AfricasTalking;
+
+	/**
+	 * 
+	 * @param client 
+	 */
 	constructor(client: AfricasTalking) {
 		this.client = client;
 	}

@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-yarn add '@osenco/africastalking'
+yarn add @osenco/africastalking
 ```
 
 ## Initialize
@@ -11,39 +11,45 @@ yarn add '@osenco/africastalking'
 ```typescript
 import { AfricasTalking }, ATConfig from '@osenco/africastalking'
 
-const at = new AfricasTalking({
-    username: '',
-    apiKey: '',
-    from: ''
-})
+const at = new AfricasTalking('apiKey', 'username', 'from');
 ```
 
 ## Send SMS
 
-### Send one message to one
+### Send one message to one receipient
 
 ```typescript
 at.sms('Hello there').to(254705459494).send();
 ```
 
-### Send one message to many
+### Send one message to many receipients
 
 ```typescript
-at.sms('Hello there').to([254705459494, 254115911301]).send();
+at.sms('Hello customer.').to([254705459494, 254115911301]).send();
 ```
 
-### Send unique messages
+### Send unique messages to many receipients
 
 ### With template
 
 ```typescript
-at.smsManyTemplate([254705459494, 254115911301], 'Hello there :name', {name, amount});
+at.sendManyTemplateSms(
+ "Hello :name, please pay KSh :amount",
+ [
+  { name: "Mauko", amount: 100, phoneNumber: 254705459494 },
+  { name: "Mary", amount: 200, phoneNumber: 254115911301 },
+ ],
+ "phoneNumber"
+);
 ```
 
 ### Predefined
 
 ```typescript
-at.smsManyDefine({'254705459494':'Hello there Mauko'}).send();
+at.sendManyDefinedSms([
+ { 254705459494: "Hello there Mauko" },
+ { 254705459494: "Hi Mary" },
+]);
 ```
 
 ## Check balance

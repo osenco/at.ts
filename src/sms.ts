@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { AfricasTalking } from "./client";
 
 export class Sms {
@@ -9,23 +10,37 @@ export class Sms {
 		this.client = client;
 	}
 
-	public text(message: string) {
+	/**
+	 * 
+	 * @param message 
+	 * @returns 
+	 */
+	public text(message: string): Sms {
 		this.message = message;
 		return this;
 	}
 
-	public to(to: string | string[] | number | number[]) {
+	/**
+	 * 
+	 * @param to 
+	 * @returns 
+	 */
+	public to(to: string | string[] | number | number[]): Sms {
 		this.phones = to;
 
 		return this;
 	}
 
+	/**
+	 * 
+	 * @returns 
+	 */
 	public async send() {
-		const { data } = await this.client.http.post("/messaging", {
-			username: this.client.config.username,
-			apiKey: this.client.config.apiKey,
+		const { data }: AxiosResponse<any> = await this.client.http.post("/messaging", {
+			username: this.client.username,
+			apiKey: this.client.apiKey,
 			to: this.phones,
-			from: this.client.config.from,
+			from: this.client.from,
 			message: this.message,
 		});
 

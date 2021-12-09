@@ -1,13 +1,6 @@
 import { AfricasTalking } from "../dist";
 
-const at = new AfricasTalking(
-	{
-		username: "",
-		apiKey: "",
-		from: "",
-	},
-	"sandbox"
-);
+const at = new AfricasTalking('apiKey', 'username', 'from');
 
 // Buy airtime
 at.airtime()

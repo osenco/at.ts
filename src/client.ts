@@ -1,26 +1,33 @@
-import { ATConfig } from "./types";
 import { USSD } from "./ussd";
 import { Airtime } from "./airtime";
 import { Sms } from "./sms";
 import axios, { AxiosInstance } from "axios";
 
 export class AfricasTalking {
-	private env = "live";
-	public config: ATConfig = {
-		username: "",
-		apiKey: "",
-		from: "",
-	};
+	public apiKey: string;
+	public username = "sandbox";
+	public from: string | number | null = "AFRICASTKNG";
 
 	public endpoint = "https://api.africastalking.com/version1";
 
 	public http: AxiosInstance;
 
-	constructor(config: ATConfig, env: string = "live") {
-		this.config = config;
-		this.env = env;
+	/**
+	 * 
+	 * @param apikey AfricasTalking API Key
+	 * @param username AfricasTalking username
+	 * @param from AfricasTalking sender ID
+	 */
+	constructor(
+		apikey: string,
+		username: string = "sandbox",
+		from: string | number | null = "AFRICASTKNG"
+	) {
+		this.apiKey = apikey;
+		this.username = username;
+		this.from = from;
 
-		if (this.env === "sandbox") {
+		if (username === "sandbox") {
 			this.endpoint = "https://api.sandbox.africastalking.com/version1";
 		}
 
@@ -28,11 +35,14 @@ export class AfricasTalking {
 			baseURL: this.endpoint,
 			headers: {
 				Accept: "application/json",
-				apikey: this.config.apiKey,
+				apikey: this.apiKey,
 			},
 		});
 	}
 
+	/**
+	 * Check Account Balance 
+	 */
 	public async balance() {
 		const {
 			data: { balance },
@@ -41,6 +51,11 @@ export class AfricasTalking {
 		return balance;
 	}
 
+	/**
+	 * Set SMS message content
+	 *
+	 * @param message Message to send
+	 */
 	public sms(message: string): Sms {
 		const sms = new Sms(this);
 		sms.text(message);
@@ -48,34 +63,60 @@ export class AfricasTalking {
 		return sms;
 	}
 
-	public async smsManyDefined(messages: any[]): Promise<void> {
+	/**
+	 * 
+	 * @param messages Messages to send
+	 * @returns 
+	 */
+	public async sendManyDefinedSms(messages: any[]): Promise<Sms> {
 		const sms = new Sms(this);
 		Object.entries(messages).forEach(([to, message]) => {
 			sms.text(message).to(to).send();
 		});
+
+		return sms;
 	}
 
-	public async smsManyTemplate(
-		phones: any[],
+	/**
+	 * 
+	 * @param template Message template
+	 * @param receipients  An array of receipient objects containing data to be sent
+	 * @param phoneField Key of the field that contains the phone number
+	 * @returns Sms object
+	 */
+	public async sendManyTemplateSms(
 		template: string,
-		replacers: string[]
-	): Promise<void> {
+		receipients: any[],
+		phoneField: string = "phone"
+	): Promise<Sms> {
 		const sms = new Sms(this);
 		let message = "";
 
-		Object.entries(phones).forEach(([to, data]) => {
-			replacers.forEach((key) => {
-				message = template.replace(/`:${key}`/g, String(data[key]));
-			});
+		receipients.forEach((receipient) => {
+			Object.keys(receipient).forEach((key) => {
+				message = template.replace(
+					/`:${key}`/g,
+					String(receipient[key])
+				);
 
-			sms.text(message).to(to).send();
+				sms.text(message).to(receipient[`${phoneField}`]).send();
+			});
 		});
+		return sms;
 	}
 
+	/**
+	 * 
+	 * @returns Airtime object
+	 */
 	public airtime(): Airtime {
 		return new Airtime(this);
 	}
 
+	/**
+	 * 
+	 * @returns USSD object
+	 */
 	public ussd(): USSD {
 		return new USSD(this);
 	}

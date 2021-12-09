@@ -9,8 +9,8 @@ export class Airtime {
 
 	public async buy(phone: number | string, amount: number) {
 		const { data } = await this.client.http.post("/airtime/send", {
-			username: this.client.config.username,
-			apiKey: this.client.config.apiKey,
+			username: this.client.username,
+			apiKey: this.client.apiKey,
 			amount,
 			phone,
 		});
